@@ -1,0 +1,41 @@
+name: Minervini Korea V5 Validation
+
+on:
+  push:
+    paths:
+      - 'minervini_korea/run_backtest_v5_validation.py'
+      - '.github/workflows/minervini-v5-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas numpy pyarrow pyyaml tabulate
+      - name: Fetch KRX yearly files
+        run: |
+          mkdir -p minervini_korea/external
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/FinanceData/marcap.git minervini_korea/external/marcap
+          cd minervini_korea/external/marcap
+          git sparse-checkout set --no-cone \
+            data/marcap-2014.parquet data/marcap-2015.parquet data/marcap-2016.parquet \
+            data/marcap-2017.parquet data/marcap-2018.parquet data/marcap-2019.parquet \
+            data/marcap-2020.parquet data/marcap-2021.parquet data/marcap-2022.parquet \
+            data/marcap-2023.parquet data/marcap-2024.parquet data/marcap-2025.parquet \
+            data/marcap-2026.parquet
+      - name: Run robustness validation
+        run: python minervini_korea/run_backtest_v5_validation.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: minervini-v5-results
+          path: minervini_korea/results_v5/
+          retention-days: 7
