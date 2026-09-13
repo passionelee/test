@@ -26,6 +26,17 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: pip install pandas numpy pyarrow pyyaml tabulate
+      - name: Fetch only required KRX yearly files
+        run: |
+          mkdir -p minervini_korea/external
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/FinanceData/marcap.git minervini_korea/external/marcap
+          cd minervini_korea/external/marcap
+          git sparse-checkout set --no-cone \
+            data/marcap-2014.parquet data/marcap-2015.parquet data/marcap-2016.parquet \
+            data/marcap-2017.parquet data/marcap-2018.parquet data/marcap-2019.parquet \
+            data/marcap-2020.parquet data/marcap-2021.parquet data/marcap-2022.parquet \
+            data/marcap-2023.parquet data/marcap-2024.parquet data/marcap-2025.parquet \
+            data/marcap-2026.parquet
       - name: Run Korean equity backtest
         run: python minervini_korea/run_backtest.py
       - name: Commit results
