@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'minervini_korea/run_backtest.py'
+      - 'minervini_korea/run_backtest_fast.py'
       - 'minervini_korea/config.yaml'
       - '.github/workflows/minervini-korea.yml'
   workflow_dispatch:
@@ -18,7 +19,7 @@ permissions:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -37,8 +38,8 @@ jobs:
             data/marcap-2020.parquet data/marcap-2021.parquet data/marcap-2022.parquet \
             data/marcap-2023.parquet data/marcap-2024.parquet data/marcap-2025.parquet \
             data/marcap-2026.parquet
-      - name: Run Korean equity backtest
-        run: python minervini_korea/run_backtest.py
+      - name: Run optimized Korean equity backtest
+        run: python minervini_korea/run_backtest_fast.py
       - name: Commit results
         run: |
           git config user.name 'github-actions[bot]'
