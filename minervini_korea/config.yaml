@@ -1,0 +1,44 @@
+research_window:
+  start: 2015-01-01
+  end: 2026-09-11
+universe:
+  markets: [KOSPI, KOSDAQ]
+  common_only: true
+  exclude_spac: true
+  exclude_etf_etn: true
+  min_adv20_krw: 5000000000
+  min_market_cap_krw: 100000000000
+signal_timing:
+  evaluate_on_close: true
+  execute_next_open: true
+strategy:
+  rs_percentile_min: 90
+  rs_accel20_min: 10
+  early_trend:
+    close_gt_ma20: true
+    ma20_gt_ma60: true
+    slope20_positive: true
+    slope60_positive: true
+    ma60_over_ma120_min: 0.97
+  vcp:
+    window_min: 30
+    window_max: 100
+    contractions_min: 2
+    contractions_max: 4
+    last_contraction_max_pct: 12
+    volume_dryup_ratio_max: 0.8
+  breakout:
+    pivot_lookback: 20
+    volume_multiple_min: 1.3
+    max_gap_pct: 5
+risk:
+  initial_stop_pct: 6
+  max_positions: 5
+  position_weight: equal
+  trailing:
+    profit_20pct_or_more: ma20
+    strong_winner: ma60
+costs:
+  commission_one_way_pct: 0.015
+  slippage_one_way_pct: 0.2
+  sell_tax_pct: 0.18
