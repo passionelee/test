@@ -1,0 +1,12 @@
+{
+  "rows": 6040539,
+  "tickers": 2887,
+  "start": "2015-01-02",
+  "end": "2026-09-10",
+  "changes_from_v1": [
+    "VCP/ATR/volume contraction evaluated on D-1, not breakout day D",
+    "breadth denominator restricted to liquid/market-cap eligible names",
+    "Early Trend allows flat-to-mildly-declining 60DMA before full Stage-2 confirmation",
+    "RS acceleration, VCP strictness, MA ratio, 60DMA slope, breakout volume, stop and breadth sensitivity retested"
+  ]
+}
