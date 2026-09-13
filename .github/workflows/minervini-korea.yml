@@ -5,6 +5,7 @@ on:
     paths:
       - 'minervini_korea/run_backtest.py'
       - 'minervini_korea/run_backtest_fast.py'
+      - 'minervini_korea/run_backtest_v2.py'
       - 'minervini_korea/config.yaml'
       - '.github/workflows/minervini-korea.yml'
   workflow_dispatch:
@@ -38,14 +39,14 @@ jobs:
             data/marcap-2020.parquet data/marcap-2021.parquet data/marcap-2022.parquet \
             data/marcap-2023.parquet data/marcap-2024.parquet data/marcap-2025.parquet \
             data/marcap-2026.parquet
-      - name: Run optimized Korean equity backtest
-        run: python minervini_korea/run_backtest_fast.py
+      - name: Run V2 Korean equity research loop
+        run: python minervini_korea/run_backtest_v2.py
       - name: Commit results
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add minervini_korea/results minervini_korea/data_manifest.json || true
+          git add minervini_korea/results_v2 || true
           if ! git diff --cached --quiet; then
-            git commit -m 'Update Minervini Korea backtest results'
+            git commit -m 'Update Minervini Korea V2 results'
             git push
           fi
