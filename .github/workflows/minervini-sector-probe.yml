@@ -1,0 +1,34 @@
+name: Minervini Korea Sector Probe
+
+on:
+  push:
+    paths:
+      - 'minervini_korea/sector_probe.py'
+      - '.github/workflows/minervini-sector-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: pip install pandas pykrx
+      - name: Probe historical sector classifications
+        run: python minervini_korea/sector_probe.py
+      - name: Commit probe
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add minervini_korea/sector_probe_results || true
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update KRX sector probe results'
+            git push
+          fi
