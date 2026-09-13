@@ -24,6 +24,8 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -49,5 +51,6 @@ jobs:
           git add minervini_korea/results_v4 || true
           if ! git diff --cached --quiet; then
             git commit -m 'Update Minervini Korea V4 results'
+            git pull --rebase origin main
             git push
           fi
