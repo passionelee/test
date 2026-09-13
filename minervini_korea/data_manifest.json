@@ -1,0 +1,23 @@
+{
+  "rows": 6040539,
+  "tickers": 2887,
+  "start": "2015-01-02",
+  "end": "2026-09-10",
+  "source": "FinanceData/marcap",
+  "execution": "optimized holdings-and-signals-only simulator",
+  "tax_schedule": {
+    "2015_to_2019-06-02": 0.003,
+    "2019-06-03_to_2020": 0.0025,
+    "2021_to_2022": 0.0023,
+    "2023": 0.002,
+    "2024": 0.0018,
+    "2025": 0.0015,
+    "2026": 0.002
+  },
+  "notes": [
+    "Signals use D close and entries use D+1 open.",
+    "20 bps one-way slippage and 1.5 bps one-way commission.",
+    "Pending exits on suspended names wait for the next available row.",
+    "Sector and filing-time fundamentals are not included in this price-only phase."
+  ]
+}
