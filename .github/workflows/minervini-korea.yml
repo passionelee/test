@@ -8,6 +8,10 @@ on:
       - '.github/workflows/minervini-korea.yml'
   workflow_dispatch:
 
+concurrency:
+  group: minervini-korea-backtest
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -21,7 +25,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
-        run: pip install pandas numpy pyarrow pyyaml
+        run: pip install pandas numpy pyarrow pyyaml tabulate
       - name: Run Korean equity backtest
         run: python minervini_korea/run_backtest.py
       - name: Commit results
